@@ -22,7 +22,7 @@ class CardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.transparent,
-      elevation: 0, 
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(1),
         child: Column(
@@ -30,8 +30,8 @@ class CardItem extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAEBEA),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFEAEBEA),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -43,16 +43,13 @@ class CardItem extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
 
-            // Categoría
             Text(
               category,
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
 
-            // Título
             Text(
               title,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -62,17 +59,13 @@ class CardItem extends StatelessWidget {
 
             const SizedBox(height: 5),
 
-            // Rating
             Row(
               children: [
                 const Icon(Icons.star, color: Colors.amber, size: 18),
                 const SizedBox(width: 4),
                 Text(
                   "$rating",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(width: 4),
                 Text(
@@ -84,26 +77,18 @@ class CardItem extends StatelessWidget {
 
             const SizedBox(height: 5),
 
-            // Precio + Botón agregar
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "\$$price",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[100],
-                  ),
+                  decoration: BoxDecoration(color: Colors.blueGrey[100]),
                   child: IconButton(
                     icon: const Icon(Icons.add, color: Colors.black),
-                    onPressed: () {
-                      // Acción de agregar
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ],

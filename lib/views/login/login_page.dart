@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodels/auth_viewmodel.dart';
+import '../../features/products/presentation/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,11 +15,10 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final String _testEmail = "angel@gmail.com";
-  final String _testPassword = "12345678";
-
   @override
   Widget build(BuildContext context) {
+    final authVM = context.read<AuthViewModel>();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -27,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // 🔹 Título centrado
                 const Text(
                   "Furnituristic",
                   style: TextStyle(
@@ -38,13 +38,11 @@ class _LoginPageState extends State<LoginPage> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-
                 const Text(
                   "Bienvenido, inicia sesión para continuar",
                   style: TextStyle(fontSize: 16, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
-
                 const SizedBox(height: 50),
 
                 TextFormField(
@@ -94,10 +92,16 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 34),
 
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      if (_emailController.text == _testEmail &&
-                          _passwordController.text == _testPassword) {
+                      final authVM = context.read<AuthViewModel>();
+
+                      bool success = await authVM.login(
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+
+                      if (success) {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (_) => const HomePage()),
@@ -105,12 +109,15 @@ class _LoginPageState extends State<LoginPage> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Credenciales incorrectas"),
+                            content: Text(
+                              "Credenciales inválidas o error de conexión",
+                            ),
                           ),
                         );
                       }
                     }
                   },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 241, 110, 10),
                     foregroundColor: Colors.white,
@@ -165,19 +172,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _socialButton(String text, Color color) {
+  static Widget _socialButton(String text, Color color) {
     return Container(
       width: 50,
       height: 50,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.white,
         boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3)),
         ],
       ),
       child: Center(
